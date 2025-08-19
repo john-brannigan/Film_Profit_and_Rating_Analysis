@@ -1,2 +1,2 @@
-# ITEC4220
-Advanced Data Analytics Hub
+# ITEC4220_Project
+Advanced Data Analytics
