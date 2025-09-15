@@ -1,2 +1,2 @@
-# ITEC4220_Project
+# Film_Profit_and_Rating_Analysis
 Advanced Data Analytics
