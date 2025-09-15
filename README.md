@@ -1,5 +1,4 @@
 # Introduction
----
 This is a repo for my analysis of all films currently on TMDB, or The Movie Database.
 This includes films from ~1894 to today.
 The dataset includes these columns:
@@ -33,5 +32,4 @@ The dataset includes these columns:
 28. poster_path: TMDB poster image path.
 Link to the dataset [here](https://www.kaggle.com/datasets/alanvourch/tmdb-movies-daily-updates).
 ## Analysis Question
----
 I will be mainly using the genres, imdb_rating, budget, and revenue columns in order to research the film industry's profit margins over time, and if financial success begets critical success. Then, further breaking down the question by genre.
