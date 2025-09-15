@@ -1,7 +1,8 @@
 # Introduction
 ---
-This is a repo for my analysis of all films currently on TMDB, or The Movie Database. This includes films from ~1894 to today.
-The dataset includes:
+This is a repo for my analysis of all films currently on TMDB, or The Movie Database.
+This includes films from ~1894 to today.
+The dataset includes these columns:
 1. id: The unique TMDB film ID.
 2. title: The film's title.
 3. vote_average: The average rating on TMDB
@@ -30,3 +31,7 @@ The dataset includes:
 26. imdb_rating: Average rating on IMDb.
 27. imdb_votes: Number of ratings on IMDb.
 28. poster_path: TMDB poster image path.
+Link to the dataset [here](https://www.kaggle.com/datasets/alanvourch/tmdb-movies-daily-updates).
+## Analysis Question
+---
+I will be mainly using the genres, imdb_rating, budget, and revenue columns in order to research the film industry's profit margins over time, and if financial success begets critical success. Then, further breaking down the question by genre.
