@@ -31,6 +31,7 @@ The dataset includes these columns:
 27. imdb_votes: Number of ratings on IMDb.
 28. poster_path: TMDB poster image path.
 Link to the dataset [here](https://www.kaggle.com/datasets/alanvourch/tmdb-movies-daily-updates).
+
 ## Analysis Question
 I will be mainly using the genres, imdb_rating, budget, and revenue columns in order to research the film industry's profit margins over time, and if financial success begets critical success. Then, further breaking down the question by genre.
 # Preliminary Analysis
