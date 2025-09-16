@@ -1,0 +1,176 @@
+---
+title: "Film Analysis"
+author: "JBrannigan"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+# Load required libraries
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+library(lubridate)
+library(scales)
+
+# Set working directory to current directory
+setwd("C:/Users/johnb/OneDrive/Desktop/ggc/fall_25/ITEC4220")
+```
+
+
+## Question 1: Load the dataset into R & visualize columns
+First, I loaded the dataset into R.
+Then, I filtered the dataset to only include films with over 5000 IMDb ratings and films that were released after 1920, accounting for low-end outliers and the earliest films, which were not feature films.
+```{r}
+# Reading .csv file
+movies <- read.csv("TMDB_all_movies.csv")
+
+# Filtering the dataset to include movies with over 5000 ratings
+movies_filtered <- movies %>% filter(imdb_votes > 5000) %>% filter(release_date >= 1920-01-01)
+
+# Changing the datatype of release_date to Date in order for the graph to work correctly
+movies_filtered$release_date <- as.Date(movies_filtered$release_date)
+```
+Then, I created a graph of every film's revenue over time.
+```{r}
+ggplot(movies_filtered, aes(x = release_date, y = revenue)) + 
+  geom_line() + 
+  scale_x_date(breaks = "20 years", date_labels = "%Y") + 
+  scale_y_continuous(labels = function(x) paste0(x / 1e9, "b")) + 
+  labs(
+    title = "Revenue Over Time", 
+    x = "Year", 
+    y = "Revenue (in billions)"
+    ) + 
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+This shows that, understandably, film's profits have *substantially* increased as the years have progressed.
+
+## Question 2: A simple statistical analysis
+I will be calculating the average revenue of films, grouped by the year of their release.
+```{r}
+# Calculating the average revenue per year
+filtered_mean <- movies_filtered %>%
+  filter(!is.na(revenue)) %>%
+  mutate(year = year(release_date)) %>%
+  group_by(year) %>%
+  summarise(mean_rev = mean(revenue, na.rm = TRUE)) %>%
+  ungroup()
+
+# Making the graph of average revenue per year
+ggplot(filtered_mean, aes(x = year, y = mean_rev)) +
+  geom_line() +
+  scale_y_continuous(labels = label_number(scale = 1e-6, suffix = "m")) +
+  labs(
+    title = "Average Movie Revenue Over Time",
+    x = "Year",
+    y = "Average Revenue"
+  ) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+This result shows that the average film has made more money as time has progressed and film has become more and more of an industry.
+
+## Question 3: Statistical Test 1 - Correlation
+Now, I will be looking at the correlation of the budget and the revenue, to see if the more money is put in to a film, the more money the film will make at the box office.
+```{r}
+# Creating the correlation variables
+filtered_corr <- movies_filtered %>%
+  filter(!is.na(budget), !is.na(revenue)) %>%
+  mutate(
+    budget = as.numeric(budget),
+    revenue = as.numeric(revenue)
+  )
+
+# Calculating correlation
+cor.test(filtered_corr$budget, filtered_corr$revenue, method = "pearson")
+```
+This correlation test shows a statistically-significant, strong positive linear correlation between budget and revenue. Movies with a higher budget tend to have higher revenues.
+
+## Question 4: Statistical Test 2 - Histogram
+This will be a histogram of IMDb ratings, a measure of the critical success of films.
+```{r}
+ggplot(movies_filtered, aes(x = imdb_rating)) +
+  geom_histogram(
+    binwidth = 0.5,
+    fill = "skyblue",
+    color = "black"
+  ) +
+  scale_x_continuous(
+    breaks = seq(0, 10, by = 1)
+  ) +
+  labs(
+    title = "Distribution of IMDb Ratings",
+    x = "IMDb Rating",
+    y = "Count"
+  ) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+```{r}
+ggplot(movies_filtered, aes(x = revenue)) +
+    geom_histogram(
+        binwidth = 10000000,
+        fill = "skyblue",
+        color = "black"
+    ) +
+    scale_x_continuous(
+        breaks = seq(0, 200, by = 1)
+    ) +
+    labs(
+        title = "Distribution of Revenue",
+        x = "Revenue",
+        y = "Count"
+    ) +
+    theme_minimal() +
+    theme(plot.title = element_text(hjust = 0.5))
+```
+
+This histogram shows that the majority of movies fall in the rating range of 6-7.5 out of 10. This could be used to suggest that financial success doesn't always lead to critical success, as most films fall into a 3-4 star range regardless of revenue.
+
+## Question 5: T-test of revenues, split by IMDb Rating
+I will be splitting the dataset in two parts: higher and lower than the mean IMDb rating.
+```{r}
+# Calculating mean rating
+mean_rating <- mean(movies_filtered$imdb_rating, na.rm = TRUE)
+
+# Creating two subsets, one above and one below the mean
+above_avg <- subset(movies_filtered, imdb_rating > mean_rating)
+below_avg <- subset(movies_filtered, imdb_rating < mean_rating)
+```
+Then, a t-test will be performed on both subsets' revenues.
+```{r}
+# Making sure revenues are numeric
+above_avg$revenue <- as.numeric(above_avg$revenue)
+below_avg$revenue <- as.numeric(below_avg$revenue)
+
+# Performing t-test
+t_test_result <- t.test(
+  above_avg$revenue,
+  below_avg$revenue,
+  alternative = "two.sided",  # test if means are different
+  var.equal = FALSE            # Welch's t-test (does not assume equal variances)
+)
+
+t_test_result
+```
+The t-test shows that movies *above* the IMDb average rating tend to have significantly higher revenues compared to movies below the mean by an average of \$13 million.
+To look at *typical* revenue instead of average revenue, I will also run a Wilcoxon test because it ignores extreme values.
+```{r}
+# Performing Wilcoxon test
+wilcox_test_result <- wilcox.test(
+    above_avg$revenue,
+    below_avg$revenue,
+    alternative = "two.sided"
+)
+
+wilcox_test_result
+```
+This result shows that, actually, excluding outliers, there is *not* a significant difference in typical revenues of movies above and below the average rating. The difference is driven by high-grossing blockbusters.
