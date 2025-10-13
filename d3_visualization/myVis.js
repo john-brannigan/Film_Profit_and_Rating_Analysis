@@ -1,7 +1,7 @@
-async function draw() {
+(async function() {
   const data = await d3.json("https://raw.githubusercontent.com/john-brannigan/Film_Profit_and_Rating_Analysis/main/SampleData.json");
 
-  // Parse first genre and rating
+  // Extract first genre and rating
   const filtered = data.map(d => {
     const genre = d.genres.split(",")[0].trim();
     const rating = +d.imdb_rating;
@@ -32,7 +32,7 @@ async function draw() {
     .domain([0, 10])
     .range([innerHeight, 0]);
 
-  // Axis
+  // Axes
   g.append("g").call(d3.axisLeft(yScale));
   g.append("g")
     .attr("transform", `translate(0,${innerHeight})`)
@@ -41,7 +41,7 @@ async function draw() {
     .attr("transform", "rotate(-45)")
     .attr("text-anchor", "end");
 
-  // Calculate box plot statistics
+  // Compute box plot statistics
   const boxData = genres.map(genre => {
     const ratings = genreMap.get(genre).map(d => d.rating).sort(d3.ascending);
     const q1 = d3.quantile(ratings, 0.25);
@@ -52,7 +52,6 @@ async function draw() {
     return { genre, q1, median, q3, min, max };
   });
 
-  // Box width
   const boxWidth = xScale.bandwidth();
 
   // Draw boxes
@@ -62,7 +61,7 @@ async function draw() {
     .attr("class", "box")
     .attr("transform", d => `translate(${xScale(d.genre)},0)`);
 
-  // Box rectangle (Q1 to Q3)
+  // Box rectangles (Q1-Q3)
   box.append("rect")
     .attr("y", d => yScale(d.q3))
     .attr("height", d => yScale(d.q1) - yScale(d.q3))
@@ -70,7 +69,7 @@ async function draw() {
     .attr("fill", "#69b3a2")
     .attr("stroke", "black");
 
-  // Median
+  // Median line
   box.append("line")
     .attr("y1", d => yScale(d.median))
     .attr("y2", d => yScale(d.median))
@@ -79,7 +78,7 @@ async function draw() {
     .attr("stroke", "black")
     .attr("stroke-width", 2);
 
-  // Min
+  // Min and max lines
   box.append("line")
     .attr("y1", d => yScale(d.min))
     .attr("y2", d => yScale(d.min))
@@ -87,7 +86,6 @@ async function draw() {
     .attr("x2", boxWidth*3/4)
     .attr("stroke", "black");
 
-  // Max
   box.append("line")
     .attr("y1", d => yScale(d.max))
     .attr("y2", d => yScale(d.max))
@@ -123,6 +121,4 @@ async function draw() {
     .attr("transform", "rotate(-90)")
     .attr("text-anchor", "middle")
     .text("IMDb Rating");
-}
-
-draw();
+})();

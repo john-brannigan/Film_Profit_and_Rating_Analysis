@@ -1,8 +1,4 @@
-import { select } from 'https://esm.sh/d3-selection';
-import { transition } from 'https://esm.sh/d3-transition';
-import { line } from 'https://esm.sh/d3-shape';
-
-const svg = select("svg")
+const svg = d3.select("svg")
   .attr("width", 1200)
   .attr("height", 280);
 
@@ -85,7 +81,7 @@ const points = [
   [450, 260]
 ];
 
-const lineGenerator = line();
+const lineGenerator = d3.line();
 const pathData = lineGenerator(points);
 
 const path = svg.append("path")
