@@ -1,5 +1,5 @@
 (async function() {
-  const data = await d3.json("https://raw.githubusercontent.com/john-brannigan/Film_Profit_and_Rating_Analysis/main/SampleData.json");
+  const data = await d3.json("SampleData.json");
 
   // Extract first genre and rating
   const filtered = data.map(d => {
