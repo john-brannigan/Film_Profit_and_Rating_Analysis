@@ -1,5 +1,5 @@
-(async function() {
-  const data = await d3.json("SampleData.json");
+// Load local JSON
+d3.json("SampleData.json").then(data => {
 
   // Extract first genre and rating
   const filtered = data.map(d => {
@@ -8,7 +8,6 @@
     return { genre, rating };
   }).filter(d => d.genre && d.rating);
 
-  // Group ratings by genre
   const genreMap = d3.group(filtered, d => d.genre);
   const genres = Array.from(genreMap.keys()).sort();
 
@@ -21,13 +20,12 @@
 
   const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
 
-  // X scale: genre
+  // X and Y scales
   const xScale = d3.scaleBand()
     .domain(genres)
     .range([0, innerWidth])
     .padding(0.3);
 
-  // Y scale: rating
   const yScale = d3.scaleLinear()
     .domain([0, 10])
     .range([innerHeight, 0]);
@@ -41,27 +39,28 @@
     .attr("transform", "rotate(-45)")
     .attr("text-anchor", "end");
 
-  // Compute box plot statistics
+  // Box plot data
   const boxData = genres.map(genre => {
     const ratings = genreMap.get(genre).map(d => d.rating).sort(d3.ascending);
-    const q1 = d3.quantile(ratings, 0.25);
-    const median = d3.quantile(ratings, 0.5);
-    const q3 = d3.quantile(ratings, 0.75);
-    const min = d3.min(ratings);
-    const max = d3.max(ratings);
-    return { genre, q1, median, q3, min, max };
+    return {
+      genre,
+      min: d3.min(ratings),
+      q1: d3.quantile(ratings, 0.25),
+      median: d3.quantile(ratings, 0.5),
+      q3: d3.quantile(ratings, 0.75),
+      max: d3.max(ratings)
+    };
   });
 
   const boxWidth = xScale.bandwidth();
 
-  // Draw boxes
   const box = g.selectAll(".box")
     .data(boxData)
     .join("g")
     .attr("class", "box")
     .attr("transform", d => `translate(${xScale(d.genre)},0)`);
 
-  // Box rectangles (Q1-Q3)
+  // Draw boxes
   box.append("rect")
     .attr("y", d => yScale(d.q3))
     .attr("height", d => yScale(d.q1) - yScale(d.q3))
@@ -78,19 +77,19 @@
     .attr("stroke", "black")
     .attr("stroke-width", 2);
 
-  // Min and max lines
+  // Min/max lines
   box.append("line")
-    .attr("y1", d => yScale(d.min))
-    .attr("y2", d => yScale(d.min))
     .attr("x1", boxWidth/4)
     .attr("x2", boxWidth*3/4)
+    .attr("y1", d => yScale(d.min))
+    .attr("y2", d => yScale(d.min))
     .attr("stroke", "black");
 
   box.append("line")
-    .attr("y1", d => yScale(d.max))
-    .attr("y2", d => yScale(d.max))
     .attr("x1", boxWidth/4)
     .attr("x2", boxWidth*3/4)
+    .attr("y1", d => yScale(d.max))
+    .attr("y2", d => yScale(d.max))
     .attr("stroke", "black");
 
   // Whiskers
@@ -121,4 +120,5 @@
     .attr("transform", "rotate(-90)")
     .attr("text-anchor", "middle")
     .text("IMDb Rating");
-})();
+
+});
