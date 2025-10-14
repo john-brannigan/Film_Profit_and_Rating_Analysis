@@ -2,7 +2,7 @@ const svg = d3.select("svg")
   .attr("width", 1200)
   .attr("height", 280);
 
-// Circle + Text (move together)
+// Circle + Text
 const group = svg.append("g");
 
 const circle = group.append("circle")
@@ -48,7 +48,7 @@ function moveLeft() {
 
 moveRight();
 
-// Rectangle (move vertically & resize)
+// Rectangle animation
 const rect = svg.append("rect")
   .attr("x", 500)
   .attr("y", 40)
@@ -72,7 +72,7 @@ function animateRect() {
 
 animateRect();
 
-// Creating line
+// Line animation
 const points = [
   [50, 260],
   [150, 220],
@@ -90,7 +90,6 @@ const path = svg.append("path")
   .attr("stroke-width", 3)
   .attr("fill", "none");
 
-// Animating line
 const totalLength = path.node().getTotalLength();
 
 path
