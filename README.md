@@ -39,5 +39,5 @@ I will be mainly using the genres, imdb_rating, budget, and revenue columns in o
 # JSON Data
 Link to a sample of the JSON data [here](https://john-brannigan.github.io/Film_Profit_and_Rating_Analysis/SampleData.json) because the actual dataset is too large.
 ## D3 Visualizations
-- [Example D3 Visualization (live)](https://john-brannigan.github.io/Film_Profit_and_Rating_Analysis/example_d3/) — [source folder](example_d3/)
-- [Box Plot of IMDb Ratings by Genre (live)](https://john-brannigan.github.io/Film_Profit_and_Rating_Analysis/d3_visualization/) — [source folder](d3_visualization/)
+- [Example D3 Visualization (live)](https://john-brannigan.github.io/Film_Profit_and_Rating_Analysis/example_d3/)
+- [Box Plot of IMDb Ratings by Genre (live)](https://john-brannigan.github.io/Film_Profit_and_Rating_Analysis/d3_visualization/)
