@@ -41,6 +41,5 @@ Link to a sample of the JSON data [here](https://john-brannigan.github.io/Film_P
 ## D3 Visualizations
 - [Example D3 Visualization](https://john-brannigan.github.io/Film_Profit_and_Rating_Analysis/example_d3/)
 - [Box Plot of IMDb Ratings by Genre](https://john-brannigan.github.io/Film_Profit_and_Rating_Analysis/d3_visualization/)
-
 # Jupyter Notebook Including Clustering
-- Link to the notebook [here](https://john-brannigan.github.io/Film_Profit_and_Rating_Analysis/FinancialCriticalSuccess.html)
+Link to the notebook [here](https://john-brannigan.github.io/Film_Profit_and_Rating_Analysis/FinancialCriticalSuccess.html)
