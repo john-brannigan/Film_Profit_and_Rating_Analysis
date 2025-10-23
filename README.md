@@ -36,10 +36,10 @@ Link to the dataset [here](https://www.kaggle.com/datasets/alanvourch/tmdb-movie
 I will be mainly using the genres, imdb_rating, budget, and revenue columns in order to research the film industry's profit margins over time, and if financial success begets critical success. Then, further breaking down the question by genre.
 # Preliminary Analysis
 [Link to R Markdown Analysis](https://john-brannigan.github.io/Film_Profit_and_Rating_Analysis/PrelimFilmAnalysis.html)
+# Final Analysis - Jupyter Notebook (Including Clustering)
+Link to the notebook [here](https://john-brannigan.github.io/Film_Profit_and_Rating_Analysis/FinancialCriticalSuccess.html)
 # JSON Data
 Link to a sample of the JSON data [here](https://john-brannigan.github.io/Film_Profit_and_Rating_Analysis/SampleData.json) because the actual dataset is too large.
-# Jupyter Notebook Including Clustering
-Link to the notebook [here](https://john-brannigan.github.io/Film_Profit_and_Rating_Analysis/FinancialCriticalSuccess.html)
 ## D3 Visualizations
 - [Example D3 Visualization](https://john-brannigan.github.io/Film_Profit_and_Rating_Analysis/example_d3/)
 - [Box Plot of IMDb Ratings by Genre](https://john-brannigan.github.io/Film_Profit_and_Rating_Analysis/d3_visualization/)
