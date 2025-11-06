@@ -36,5 +36,5 @@ Link to the notebook [here](https://john-brannigan.github.io/Film_Profit_and_Rat
 # JSON Data
 Link to a sample of the JSON data [here](https://john-brannigan.github.io/Film_Profit_and_Rating_Analysis/SampleData.json) because the actual dataset is too large.
 ## D3 Visualizations
-- [Example D3 Visualization](https://john-brannigan.github.io/Film_Profit_and_Rating_Analysis/example_d3/)
+- [Example D3 Visualization](https://john-brannigan.github.io/Film_Profit_and_Rating_Analysis/example_d3/) (Not related to analysis - just to show how D3 can work.)
 - [Box Plot of IMDb Ratings by Genre](https://john-brannigan.github.io/Film_Profit_and_Rating_Analysis/d3_visualization/)
